@@ -56,6 +56,7 @@ export default Ember.Component.extend({
     this._clientWidth = this.getAttr('estimated-width') | 0;
     this._clientHeight = this.getAttr('estimated-height') | 0;
     this._scrollChange = this.getAttr('scroll-change');
+    this._scrolled = this.getAttr('scrolled');
   },
 
   _needsRevalidate(){
@@ -211,6 +212,9 @@ export default Ember.Component.extend({
 
   actions: {
     scrollChange(scrollLeft, scrollTop) {
+      if (this._scrolled) {
+        this.sendAction('scrolled', scrollLeft, scrollTop);
+      }
       if (this._scrollChange) {
         // console.log('ember-collection sendAction scroll-change', scrollTop);
         this.sendAction('scroll-change', scrollLeft, scrollTop);

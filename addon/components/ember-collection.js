@@ -213,7 +213,15 @@ export default Ember.Component.extend({
   actions: {
     scrollChange(scrollLeft, scrollTop) {
       if (this._scrolled) {
-        this.sendAction('scrolled', scrollLeft, scrollTop, this._cells.get('lastObject'));
+        let maxIndex = 0;
+        let maxItem;
+        for (let i = 0; i < this._cells.length; i += 1) {
+          if (this._cells[i].index > maxIndex) {
+            maxIndex = this._cells[i].index;
+            maxItem = this._cells[i];
+          }
+        }
+        this.sendAction('scrolled', scrollLeft, scrollTop, maxItem);
       }
       if (this._scrollChange) {
         // console.log('ember-collection sendAction scroll-change', scrollTop);
